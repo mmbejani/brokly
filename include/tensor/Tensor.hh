@@ -11,6 +11,12 @@ struct dim4 {
   dim4(int dx, int dy, int dz, int dw) : dx(dx), dy(dy), dz(dz), dw(dw) {
     total = dx * dy * dz * dw;
   }
+
+  bool operator==(dim4 &dim) {
+    return this->dx == dim.dx && this->dy == dim.dy && this->dz == dim.dz &&
+           this->dw == dim.dw;
+  }
+
   int dx, dy, dz, dw;
   int total;
 };
@@ -37,7 +43,7 @@ public:
   }
 
 public:
-  const dim4 dimension;
+  dim4 dimension;
   T *data;
   Tensor<T> *grad;
 

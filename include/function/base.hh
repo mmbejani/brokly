@@ -2,7 +2,7 @@
 #include "tensor/Tensor.hh"
 #include "tensor/Dtype.hh"
 
-namespace momas::brokly::function
+namespace momas::brokly::function::base
 {
     tensor::Tensor<tensor::float32>* constant(tensor::dim4 dimension, float c);
     tensor::Tensor<tensor::float32>* zeros(tensor::dim4 dimension);
