@@ -7,7 +7,7 @@
 #include <cstring>
 #include <random>
 
-namespace momas::brokly::function {
+namespace momas::brokly::function::base {
 
 tensor::Tensor<tensor::float32> *constant(tensor::dim4 dimension,
                                           tensor::float32 c) {
