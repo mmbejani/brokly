@@ -9,16 +9,16 @@
 namespace momas::brokly::tensor {
 
 struct dim4 {
-  dim4(int dx, int dy, int dz, int dw) : dx(dx), dy(dy), dz(dz), dw(dw) {
-    total = dx * dy * dz * dw;
-  }
+  dim4(int d1, int d2, int d3, int d4) { total = d[0] * d[1] * d[2] * d[3]; }
 
   bool operator==(dim4 &dim) {
-    return this->dx == dim.dx && this->dy == dim.dy && this->dz == dim.dz &&
-           this->dw == dim.dw;
+    return this->d[0] == dim.d[0] && this->d[1] == dim.d[1] &&
+           this->d[2] == dim.d[2] && this->d[3] == dim.d[3];
   }
 
-  int dx, dy, dz, dw;
+  unsigned int operator[](int &&i) { return this->d[i]; }
+
+  unsigned int d[4];
   int total;
 };
 
@@ -28,7 +28,7 @@ public:
   Tensor(dim4 dimension, bool requires_grad = false,
          void (*grad_fn)(Tensor<T> *) = nullptr, T *data = nullptr)
       : dimension(dimension), grad_fn(grad_fn), requires_grad(requires_grad),
-        data(data), grad(nullptr) {
+        data(data), grad(nullptr), forward_hooks_count(0) {
 
     if (this->data == nullptr) {
       this->data = (T *)aligned_alloc(AVX_MEM_ALIGNED,
@@ -41,7 +41,7 @@ public:
   inline bool is_leaf() const { return this->grad_fn == nullptr; }
 
   void backward() {
-    for (const Tensor<T>* &backwardTensor : this->backwardHooks) {
+    for (const Tensor<T> *&backwardTensor : this->backwardHooks) {
       if (backwardTensor->grad == nullptr) {
         return;
       }
@@ -58,7 +58,7 @@ public:
   dim4 dimension;
   T *data;
   Tensor<T> *grad;
-
+  unsigned int forward_hooks_count;
   bool requires_grad, single;
   std::map<autograd::NamedTensor, Tensor<T> *> forwardHooks;
   std::list<Tensor<T> *> backwardHooks;
