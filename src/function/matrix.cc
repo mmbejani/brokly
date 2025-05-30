@@ -1,6 +1,7 @@
 #include "function/matrix.hh"
 #include "tensor/Dtype.hh"
 #include "tensor/Tensor.hh"
+#include "tensor/autograd/matrix.hh"
 
 #ifdef SIMD
 #include "backend/avx/fp32/vec.h"
@@ -19,19 +20,16 @@ tensor::Tensor<tensor::float32> *add(tensor::Tensor<tensor::float32> &input,
 tensor::Tensor<tensor::float32> *
 add_matrix_vector(tensor::Tensor<tensor::float32> &activation,
                   tensor::Tensor<tensor::float32> &bias) {
-  auto output = new tensor::Tensor<tensor::float32>(activation.dimension, true);
+  auto output = new tensor::Tensor<tensor::float32>(
+      activation.dimension, true, &tensor::autograd::addVecBackward);
   for (size_t i = 0; i < activation.dimension[2]; i++) {
     auto row_idx = activation.dimension[2] * i;
 #ifdef SIMD
     add_fp32_avx(activation.data + row_idx, bias.data, output->data + row_idx,
                  activation.dimension[2]);
-
-#elifdef MKL
-
-#elifdef BLIS
-
 #else
-    add_fp32(activation.data + row_idx, bias.data, output->data + row_idx, output->dimension[3]);
+    add_fp32(activation.data + row_idx, bias.data, output->data + row_idx,
+             output->dimension[3]);
 #endif
   }
   bias.forward_hooks_count++;
@@ -49,8 +47,8 @@ tensor::Tensor<tensor::float32> *
 matmul(tensor::Tensor<tensor::float32> &input,
        tensor::Tensor<tensor::float32> &weight) {
   auto output_dim = tensor::dim4(1, 1, input.dimension[0], weight.dimension[0]);
-  auto output = new tensor::Tensor<tensor::float32>(output_dim, true, nullptr);
-
+  auto output = new tensor::Tensor<tensor::float32>(
+      output_dim, true, &tensor::autograd::matmulBackward);
 #ifdef SIMD
   for (size_t i = 0; i < input.dimension[0]; i++) {
     auto row_idx = input.dimension[0] * i;

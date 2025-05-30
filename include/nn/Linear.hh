@@ -36,9 +36,6 @@ private:
   std::vector<tensor::Tensor<T> *>
   forward(std::vector<tensor::Tensor<T> *> inputs) override {
     tensor::Tensor<T> *x = inputs[0];
-
-    static_assert(x->dimension.dz == this->weight->dimension.dz,
-                  "The feature dim is not equal to weight dim 1");
     auto y = function::matrix::matmul(*x, *weight);
     y = function::matrix::add_matrix_vector(*y, *bias);
     return {y};

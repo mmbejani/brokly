@@ -4,6 +4,7 @@
 #include <map>
 
 #include "tensor/Define.hh"
+#include "tensor/Dtype.hh"
 #include "tensor/autograd/common.hh"
 
 namespace momas::brokly::tensor {
@@ -26,7 +27,9 @@ template <typename T> class Tensor {
 
 public:
   Tensor(dim4 dimension, bool requires_grad = false,
-         void (*grad_fn)(Tensor<T> *) = nullptr, T *data = nullptr)
+         void (*grad_fn)(std::map<autograd::NamedTensor, Tensor<float32> *>) =
+             nullptr,
+         T *data = nullptr)
       : dimension(dimension), grad_fn(grad_fn), requires_grad(requires_grad),
         data(data), grad(nullptr), forward_hooks_count(0) {
 
@@ -62,6 +65,6 @@ public:
   bool requires_grad, single;
   std::map<autograd::NamedTensor, Tensor<T> *> forwardHooks;
   std::list<Tensor<T> *> backwardHooks;
-  void (*grad_fn)(Tensor<T> *);
+  void (*grad_fn)(std::map<autograd::NamedTensor, Tensor<float32> *>);
 };
 } // namespace momas::brokly::tensor
