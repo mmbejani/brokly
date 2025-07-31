@@ -1,4 +1,8 @@
 #pragma once
+// TODO: this is tensor class that is core of computation. Consider that each
+// time a new tensor is created, we have allocate a new part of data inside
+// heap. This procedure is expensive, and we have to overload `new` function for
+// this function
 
 #include <list>
 #include <map>
