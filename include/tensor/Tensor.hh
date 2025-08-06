@@ -4,11 +4,13 @@
 // heap. This procedure is expensive, and we have to overload `new` function for
 // this function
 
+#include <cstdlib>
+#include <cstring>
 #include <list>
 #include <map>
 
 #include "tensor/Define.hh"
-#include "tensor/Dtype.hh"
+#include "tensor/autograd/base.hh"
 #include "tensor/autograd/common.hh"
 
 namespace momas::brokly::tensor {
@@ -21,19 +23,17 @@ struct dim4 {
            this->d[2] == dim.d[2] && this->d[3] == dim.d[3];
   }
 
-  unsigned int operator[](int &&i) { return this->d[i]; }
+  inline unsigned int &operator[](int i) { return this->d[i]; }
 
   unsigned int d[4];
   int total;
 };
 
-template <typename T> class Tensor {
+template <typename T> class Tensor final {
 
 public:
   Tensor(dim4 dimension, bool requires_grad = false,
-         void (*grad_fn)(std::map<autograd::NamedTensor, Tensor<float32> *>) =
-             nullptr,
-         T *data = nullptr)
+         autograd::GradFunctor *grad_fn = nullptr, T *data = nullptr)
       : dimension(dimension), grad_fn(grad_fn), requires_grad(requires_grad),
         data(data), grad(nullptr), forward_hooks_count(0) {
 
@@ -48,7 +48,7 @@ public:
   inline bool is_leaf() const { return this->grad_fn == nullptr; }
 
   void backward() {
-    for (const Tensor<T> *&backwardTensor : this->backwardHooks) {
+    for (const Tensor<T> *backwardTensor : this->backwardHooks) {
       if (backwardTensor->grad == nullptr) {
         return;
       }
@@ -69,6 +69,9 @@ public:
   bool requires_grad, single;
   std::map<autograd::NamedTensor, Tensor<T> *> forwardHooks;
   std::list<Tensor<T> *> backwardHooks;
-  void (*grad_fn)(std::map<autograd::NamedTensor, Tensor<float32> *>);
+  autograd::GradFunctor *grad_fn;
+
+  Tensor(const Tensor<T> &) = delete;
+  Tensor(Tensor<T> &&) = default;
 };
 } // namespace momas::brokly::tensor
