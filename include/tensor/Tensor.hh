@@ -13,20 +13,6 @@
 
 namespace momas::brokly::tensor {
 
-struct dim4 {
-  dim4(int d1, int d2, int d3, int d4) { total = d[0] * d[1] * d[2] * d[3]; }
-
-  bool operator==(dim4 &dim) {
-    return this->d[0] == dim.d[0] && this->d[1] == dim.d[1] &&
-           this->d[2] == dim.d[2] && this->d[3] == dim.d[3];
-  }
-
-  unsigned int operator[](int &&i) { return this->d[i]; }
-
-  unsigned int d[4];
-  int total;
-};
-
 template <typename T> class Tensor {
 
 public:

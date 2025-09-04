@@ -1,11 +1,6 @@
 
-#include "function/activation.hh"
-#include "tensor/Dtype.hh"
-#include "tensor/Tensor.hh"
-#include "tensor/autograd/Common.hh"
-#include "tensor/autograd/activation.hh"
-#include <cmath>
-#include <cstddef>
+
+
 namespace momas::brokly::function {
 tensor::Tensor<tensor::float32> *
 sigmoid(tensor::Tensor<tensor::float32> &&input) {
