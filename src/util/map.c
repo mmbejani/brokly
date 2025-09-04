@@ -24,18 +24,17 @@ Map* map_create(size_t size, hash_function_t hash_func, key_compare_t key_cmp) {
     return map;
 }
 
-// Convenience function for creating a map with integer keys
-Map* map_create_int(size_t size) {
+MapTensor* map_create_int(size_t size) {
     return map_create(size, hash_int, compare_int);
 }
 
 // Convenience function for creating a map with string keys
-Map* map_create_str(size_t size) {
+MapTensor* map_create_str(size_t size) {
     return map_create(size, hash_str, compare_str);
 }
 
 // Destroy the map and free all memory
-void map_destroy(Map* map) {
+void map_destroy(MapTensor* map) {
     if (!map) return;
     
     map_clear(map);
@@ -44,31 +43,31 @@ void map_destroy(Map* map) {
 }
 
 // Insert a key-value pair into the map
-int map_insert(Map* map, void* key, void* value) {
+int map_insert(MapTensor* map, int key, Tensor* tensor) {
     if (!map || !key) return -1;
     
     size_t index = map->hash_func(key) % map->size;
     
     // Check if key already exists
-    MapEntry* entry = map->buckets[index];
+    MapTensorEntry* entry = map->buckets[index];
     while (entry) {
         if (map->key_cmp(entry->key, key) == 0) {
             // Key exists, update value
-            if (map->value_destroy && entry->value) {
-                map->value_destroy(entry->value);
+            if (map->value_destroy && entry->tensor) {
+                map->value_destroy(entry->tensor);
             }
-            entry->value = value;
+            entry->tensor = tensor;
             return 0;
         }
         entry = entry->next;
     }
     
     // Create new entry
-    MapEntry* new_entry = (MapEntry*)malloc(sizeof(MapEntry));
+    MapTensorEntry* new_entry = (MapTensorEntry*)malloc(sizeof(MapTensorEntry));
     if (!new_entry) return -1;
     
     new_entry->key = key;
-    new_entry->value = value;
+    new_entry->tensor = tensor;
     new_entry->next = map->buckets[index];
     map->buckets[index] = new_entry;
     map->count++;
@@ -77,11 +76,11 @@ int map_insert(Map* map, void* key, void* value) {
 }
 
 // Get a value by key from the map
-void* map_get(Map* map, const void* key) {
+void* map_get(MapTensor* map, const int key) {
     if (!map || !key) return NULL;
     
     size_t index = map->hash_func(key) % map->size;
-    MapEntry* entry = map->buckets[index];
+    MapTensorEntry* entry = map->buckets[index];
     
     while (entry) {
         if (map->key_cmp(entry->key, key) == 0) {
@@ -94,12 +93,12 @@ void* map_get(Map* map, const void* key) {
 }
 
 // Remove a key-value pair from the map
-int map_remove(Map* map, const void* key) {
+int map_remove(MapTensor* map, const void* key) {
     if (!map || !key) return -1;
     
     size_t index = map->hash_func(key) % map->size;
-    MapEntry* entry = map->buckets[index];
-    MapEntry* prev = NULL;
+    MapTensorEntry* entry = map->buckets[index];
+    MapTensorEntry* prev = NULL;
     
     while (entry) {
         if (map->key_cmp(entry->key, key) == 0) {
@@ -174,11 +173,9 @@ MapIterator map_iterator(Map* map) {
     return iter;
 }
 
-// Move to the next entry in the map
-int map_iterator_next(MapIterator* iter, void** key, void** value) {
-    if (!iter || !iter->map || !key || !value) return -1;
+int map_iterator_next(MapIterator* iter, int* keys, Tensor* tensors) {
+    if (!iter || !iter->map || !keys || !tensors) return -1;
     
-    // If we have a current entry, try its next
     if (iter->entry) {
         iter->entry = iter->entry->next;
     }
@@ -212,19 +209,6 @@ void map_iterator_destroy(MapIterator* iter) {
 size_t hash_int(const void* key) {
     int k = *(const int*)key;
     return (size_t)((unsigned int)k * 2654435761U);
-}
-
-// Default hash function for string keys
-size_t hash_str(const void* key) {
-    const char* str = (const char*)key;
-    size_t hash = 5381;
-    int c;
-    
-    while ((c = *str++)) {
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
-    }
-    
-    return hash;
 }
 
 // Default key compare function for integer keys

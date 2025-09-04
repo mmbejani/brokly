@@ -1,12 +1,10 @@
 #pragma once
 #include "tensor/define.h"
 
-typedef struct
+typedef struct Tensor
 {
-    unsigned int dim[4];
-    float32 *data;
+    char requires_grad;
     unsigned int forward_hooks_count;
-    bool requires_grad;
-    
-
-} tensor;
+    float32 *data;
+    unsigned int dim[4];
+} Tensor;

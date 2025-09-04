@@ -13,25 +13,55 @@ Our memory management system follows these principles:
 3. **Object Pools**: Reuse memory blocks to avoid frequent allocation/deallocation cycles
 4. **Thread-local Storage**: Minimize contention in multi-threaded environments
 
+## File Structure
+
+```
+mm/
+├── allocator.h              # Main public API header
+├── allocator.c              # Main implementation
+├── pool.h                   # Memory pool implementation
+├── pool.c                   # Memory pool implementation
+├── allocator_interface.h    # Allocator interface definition
+├── allocator_interface.c    # Allocator interface implementation
+├── thread_local_allocator.h # Thread-local allocator
+├── thread_local_allocator.c # Thread-local allocator implementation
+├── stats.h                  # Memory statistics tracking
+├── stats.c                  # Memory statistics implementation
+├── config.h                 # Configuration options
+└── README.md                # This file
+```
+
 ## Key Components
 
-### Memory Pool
+### Memory Pool (pool.h/pool.c)
 
 - Pre-allocated contiguous memory regions
 - Reduces system calls to `malloc`/`free`
 - Provides O(1) allocation for same-sized objects
 
-### Allocator Interface
+### Allocator Interface (allocator_interface.h/allocator_interface.c)
 
 - Abstract interface for different allocation strategies
 - Allows swapping allocation methods based on use case
 - Standardized API for memory operations
 
-### Thread-local Allocators
+### Thread-local Allocators (thread_local_allocator.h/thread_local_allocator.c)
 
 - Dedicated allocators per thread to reduce locking overhead
 - Improved performance in concurrent scenarios
 - Automatic cleanup on thread termination
+
+### Statistics (stats.h/stats.c)
+
+- Memory usage tracking and profiling
+- Performance monitoring capabilities
+- Debugging support
+
+### Configuration (config.h)
+
+- Compile-time configuration options
+- Tunable parameters for different use cases
+- Platform-specific settings
 
 ## Benefits
 
@@ -57,13 +87,13 @@ Our memory management system follows these principles:
 
 ### Completed Components
 
-- [ ] Basic memory pool allocation
-- [ ] Simple allocator interface
-- [ ] Core data structures for memory management
+- [x] Basic memory pool allocation
+- [x] Simple allocator interface
+- [x] Core data structures for memory management
 
 ### In Progress
 
-- [ ] Thread-local allocator implementation
+- [x] Thread-local allocator implementation
 - [ ] Memory pool expansion/contraction mechanisms
 - [ ] Integration with tensor allocation system
 
@@ -81,7 +111,7 @@ Our memory management system follows these principles:
 
 ### Phase 1: Core System Enhancement (Short-term - 2-4 weeks)
 
-- [ ] Complete thread-local allocator implementation
+- [x] Complete thread-local allocator implementation
 - [ ] Implement memory pool expansion when capacity is exceeded
 - [ ] Add basic memory usage tracking
 - [ ] Create comprehensive unit tests for existing components

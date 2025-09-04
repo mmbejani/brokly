@@ -32,37 +32,47 @@ Parameters:
 Inserts a key-value pair into the hash table.
 
 Parameters:
+
 - `table`: Pointer to the hash table
 - `key`: Integer key
 - `value`: Pointer value to store
 
 Returns:
+
 - 0 on success, -1 on failure
 
 #### `void* hash_get(HashTable* table, int key)`
+
 Retrieves a value by key from the hash table.
 
 Parameters:
+
 - `table`: Pointer to the hash table
 - `key`: Integer key to look up
 
 Returns:
+
 - Pointer to the value, or NULL if key not found
 
 #### `int hash_remove(HashTable* table, int key)`
+
 Removes a key-value pair from the hash table.
 
 Parameters:
+
 - `table`: Pointer to the hash table
 - `key`: Integer key to remove
 
 Returns:
+
 - 0 on success, -1 if key not found
 
 #### `void hash_clear(HashTable* table)`
+
 Removes all entries from the hash table.
 
 Parameters:
+
 - `table`: Pointer to the hash table
 
 ### Usage Example
@@ -121,78 +131,101 @@ This directory also contains a more flexible map implementation that can work wi
 ### API
 
 #### `Map* map_create(size_t size, hash_function_t hash_func, key_compare_t key_cmp)`
+
 Creates a new map with custom hash and comparison functions.
 
 Parameters:
+
 - `size`: Number of buckets in the map
 - `hash_func`: Function to hash keys
 - `key_cmp`: Function to compare keys
 
 Returns:
+
 - Pointer to the new map, or NULL on failure
 
 #### `Map* map_create_int(size_t size)`
+
 Creates a new map optimized for integer keys.
 
 Parameters:
+
 - `size`: Number of buckets in the map
 
 Returns:
+
 - Pointer to the new map, or NULL on failure
 
 #### `Map* map_create_str(size_t size)`
+
 Creates a new map optimized for string keys.
 
 Parameters:
+
 - `size`: Number of buckets in the map
 
 Returns:
+
 - Pointer to the new map, or NULL on failure
 
 #### `void map_destroy(Map* map)`
+
 Destroys the map and frees all associated memory.
 
 Parameters:
+
 - `map`: Pointer to the map to destroy
 
 #### `int map_insert(Map* map, void* key, void* value)`
+
 Inserts a key-value pair into the map.
 
 Parameters:
+
 - `map`: Pointer to the map
 - `key`: Pointer to the key
 - `value`: Pointer to the value
 
 Returns:
+
 - 0 on success, -1 on failure
 
 #### `void* map_get(Map* map, const void* key)`
+
 Retrieves a value by key from the map.
 
 Parameters:
+
 - `map`: Pointer to the map
 - `key`: Pointer to the key to look up
 
 Returns:
+
 - Pointer to the value, or NULL if key not found
 
 #### `int map_remove(Map* map, const void* key)`
+
 Removes a key-value pair from the map.
 
 Parameters:
+
 - `map`: Pointer to the map
 - `key`: Pointer to the key to remove
 
 Returns:
+
 - 0 on success, -1 if key not found
 
 #### `void map_clear(Map* map)`
+
 Removes all entries from the map.
 
 Parameters:
+
 - `map`: Pointer to the map
 
 #### `size_t map_size(Map* map)`
+
 Returns the number of entries in the map.
 
 Parameters:
