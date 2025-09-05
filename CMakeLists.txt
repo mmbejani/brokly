@@ -1,17 +1,15 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(Brokly VERSION 1.0 LANGUAGES C CXX)
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+project(Brokly VERSION 1.0 LANGUAGES C)
 
-file(GLOB function_src src/function/*.cc)
-file(GLOB tensor src/tensor/*.cc)
+file(GLOB function_src src/function/*.c)
+file(GLOB tensor src/tensor/*.c)
 
 file(GLOB tensor/header)
 
-add_library(mylib
-    src/test.cpp          # Implementation
-    include/test.hh    
+add_executable(mylib
+    src/test.c
+    src/util/map.c
 )
 
 # Include directories
