@@ -2,7 +2,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
-#include "tensor/fp32/tensor.h"
+#include "tensor/tensor.h"
 
 typedef struct TensorMapEntry
 {

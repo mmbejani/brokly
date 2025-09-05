@@ -1,7 +1,7 @@
 #pragma once
 #include <stddef.h>
 
-#include "tensor/fp32/tensor.h"
+#include "tensor/tensor.h"
 
 typedef struct TensorNode {
   struct TensorNode *right_nieghbor, *left_nieghbor;
