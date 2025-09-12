@@ -5,6 +5,7 @@
 #include <stdbool.h>
 
 typedef enum TensorType {
+  DENSE,
   ZEROS,
   ONES,
   DIAG,
@@ -21,6 +22,7 @@ typedef struct __attribute__((aligned(64))) Tensor {
   bool requires_grad;
   TensorType type;
   unsigned int forward_hooks_count;
+  unsigned int size;
   float32 *data;
   unsigned int dim[4];
   backward_t backward;
