@@ -1,7 +1,7 @@
 #include "tensor/tensor.h"
 #include <stddef.h>
 
-Tensor *create_tensor(TensorType type, bool requires_grad) {
+Tensor *create_tensor(TensorType type, bool requires_grad, unsigned int *dims) {
   switch (type) {
   case ZEROS:
     create_zero_tensor(requires_grad);

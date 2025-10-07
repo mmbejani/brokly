@@ -28,7 +28,7 @@ typedef struct __attribute__((aligned(64))) Tensor {
   backward_t backward;
 } Tensor;
 
-Tensor *create_tensor(TensorType type, bool requires_grad);
+Tensor *create_tensor(TensorType type, bool requires_grad, unsigned int *dim);
 Tensor *create_one_tensor(bool requires_grad);
 Tensor *create_zero_tensor(bool requires_grad);
 float32 sum(Tensor *tensor, const int dim);

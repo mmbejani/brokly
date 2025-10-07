@@ -1,26 +1,3 @@
-/*
- * tensor_pool_allocator.c
- *
- * Simple single-block tensor memory manager that demonstrates:
- *  - Requesting one contiguous block from OS (mmap)
- *  - Partitioning into: allocator header | resident region (bump) | ephemeral region (free-list)
- *  - Fixed-size hash tables (linear probing) for id -> offset mapping (stored inside pool)
- *
- * NOTE: This is an instructive example, not production-ready. It intentionally
- * avoids any heap allocations outside the single mmap region. It is written in
- * plain C for clarity.
- *
- * API highlights:
- *  - pool_init(total_bytes)
- *  - allocate_resident(pool, id, size)
- *  - allocate_ephemeral(pool, id, size)
- *  - free_ephemeral(pool, id)
- *  - get_tensor_ptr(pool, id) -> void*
- *
- * Compile: gcc -std=c11 tensor_pool_allocator.c -o tensor_pool_allocator
- */
-
-#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
