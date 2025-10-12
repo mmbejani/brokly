@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-enum TensorName { OP1_NAME, OP2_NAME, OUT_NAME, ACT_BK_NAME };
+enum TensorName { TN_OP1_NAME, TN_OP2_NAME, TN_OUT_NAME, TN_ACT_BP_NAME, TN_BP };
 
 typedef struct TensorMapEntry {
   int key;

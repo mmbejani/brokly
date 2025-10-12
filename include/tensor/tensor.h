@@ -34,3 +34,5 @@ Tensor *create_zero_tensor(bool requires_grad);
 float32 sum(Tensor *tensor, const int dim);
 float32 mean(Tensor *tensor, const int dim);
 float32 item(Tensor *tensor);
+unsigned int *create_dim(unsigned int x, unsigned int y, unsigned int z,
+                         unsigned int w);
