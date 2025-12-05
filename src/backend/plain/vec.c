@@ -1,4 +1,4 @@
-#include "backend/plain/fp32/vec.h"
+#include "backend/plain/vec.h"
 
 void add_fp32(float *v, float *u, float *r, unsigned int n) {
   for (unsigned int i = 0; i < n; i++)
