@@ -2,6 +2,7 @@
 #include "backend/plain/vec.h"
 #include "nn/linear.h"
 #include "tensor/autograd/linear.h"
+#include "utils/list.h"
 
 void linear_forward(Linear *linear_module, Tensor *input, Tensor *output) {
 #ifdef AVX
@@ -19,7 +20,10 @@ void linear_forward(Linear *linear_module, Tensor *input, Tensor *output) {
   }
 
 #endif
-  output->forward_hooks_count++;
-  output->backward = &linear_backward;
+  output->forward_hook = list_create();
+  Node *forward_nodes = list_multi_append(output->forward_hook, 3);
+  
+  input->forward_hooks_count++;
+  output->backward_fn = &linear_backward;
   output->requires_grad = true;
 }

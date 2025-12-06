@@ -1,5 +1,5 @@
 #pragma once
 
-#include "tensor/tensor.h"
+#include "utils/list.h"
 
-void linear_backward(Tensor*);
+void linear_backward(List *, List *);

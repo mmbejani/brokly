@@ -1,6 +1,7 @@
 #pragma once
 
 #include "tensor/define.h"
+#include "utils/list.h"
 #include <stdalign.h>
 #include <stdbool.h>
 
@@ -14,9 +15,7 @@ typedef enum TensorType {
   BLOCK,
 } TensorType;
 
-struct Tensor;
-
-typedef void (*backward_t)(struct Tensor *);
+typedef void (*backward_t)(struct List *, struct List *);
 
 typedef struct __attribute__((aligned(64))) Tensor {
   bool requires_grad;
@@ -24,8 +23,10 @@ typedef struct __attribute__((aligned(64))) Tensor {
   unsigned int forward_hooks_count;
   unsigned int size;
   float32 *data;
+  backward_t backward_fn;
+  List *forward_hook;
+  List *backward_hook;
   unsigned int dim[4];
-  backward_t backward;
 } Tensor;
 
 Tensor *create_tensor(TensorType type, bool requires_grad, unsigned int *dim);
