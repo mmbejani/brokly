@@ -1,7 +1,7 @@
 #pragma once
 
 #include "tensor/define.h"
-#include "utils/list.h"
+#include "utils/dag.h"
 #include <stdalign.h>
 #include <stdbool.h>
 
@@ -15,17 +15,15 @@ typedef enum TensorType {
   BLOCK,
 } TensorType;
 
-typedef void (*backward_t)(struct List *, struct List *);
+typedef void (*backward_t)(NodeCG *);
 
 typedef struct __attribute__((aligned(64))) Tensor {
   bool requires_grad;
   TensorType type;
-  unsigned int forward_hooks_count;
   unsigned int size;
   float32 *data;
+  NodeCG *cg_node;
   backward_t backward_fn;
-  List *forward_hook;
-  List *backward_hook;
   unsigned int dim[4];
 } Tensor;
 

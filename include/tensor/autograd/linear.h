@@ -1,5 +1,4 @@
 #pragma once
+#include "utils/dag.h"
 
-#include "utils/list.h"
-
-void linear_backward(List *, List *);
+void linear_backward(NodeCG *);

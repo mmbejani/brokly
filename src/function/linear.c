@@ -2,7 +2,7 @@
 #include "backend/plain/vec.h"
 #include "nn/linear.h"
 #include "tensor/autograd/linear.h"
-#include "utils/list.h"
+#include "utils/dag.h"
 
 void linear_forward(Linear *linear_module, Tensor *input, Tensor *output) {
 #ifdef AVX
@@ -15,15 +15,15 @@ void linear_forward(Linear *linear_module, Tensor *input, Tensor *output) {
           ipr_fp32(&input->data[batch_idx * input->dim[0]],
                    &linear_module->weight
                         ->data[out_nfeat * linear_module->weight->dim[0]],
-                   input->dim[0]);
+                   input->dim[0]) +
+          linear_module->bias->data[out_nfeat];
     }
   }
 
 #endif
-  output->forward_hook = list_create();
-  Node *forward_nodes = list_multi_append(output->forward_hook, 3);
-  
-  input->forward_hooks_count++;
+  output->cg_node = create_node_cg();
+
+  input->cg_node->outgoing = output->cg_node;
   output->backward_fn = &linear_backward;
   output->requires_grad = true;
 }
