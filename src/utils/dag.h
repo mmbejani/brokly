@@ -2,9 +2,8 @@
 #include "utils/queue.h"
 
 typedef struct NodeCG {
-  struct NodeCG *outgoing;
-  struct NodeCG *incoming;
-  unsigned int nout, nin;
+  struct List *outgoing;
+  struct List *incoming;
 } NodeCG;
 
 typedef struct ComputationGraphDAG {
