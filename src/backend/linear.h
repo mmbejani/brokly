@@ -1,7 +1,5 @@
 #pragma once
 
-#include "tensor/define.h"
-
 /**
  * @brief compute linear module on single batch data
  *
@@ -13,6 +11,5 @@
  * feature
  *   @param n number of features
  */
-__attribute__((always_inline)) float32 linear_vec(float32 *vec_input,
-                                                  float32 *vec_weight,
-                                                  float32 b, const int n);
+__attribute__((always_inline)) float
+linear_vec(float *vec_input, float *vec_weight, float b, const unsigned int n);
