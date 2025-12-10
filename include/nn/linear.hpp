@@ -9,7 +9,9 @@ public:
   Linear(const unsigned int inFeature, const unsigned int outFeature,
          bool hasBias = true);
 
-  tensor::TensorPtr weight, bias;
+  tensor::Tensor *forward(const tensor::Tensor *input) const;
+
+  tensor::Tensor *weight, *bias;
 };
 
 class LinearReLU : public Linear {};

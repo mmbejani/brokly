@@ -18,9 +18,7 @@ enum TensorType {
   BLOCK,
 };
 
-class Tensor;
-
-typedef std::shared_ptr<Tensor> TensorPtr;
+enum TensorAllocMode { RESIDENT, EPHEMERAL };
 
 class Tensor {
 public:
@@ -39,7 +37,10 @@ public:
   float32 sum() const;
   float32 mean() const;
   float32 item() const;
-  void backward(TensorPtr) const;
+  static Tensor *ones(TensorAllocMode allocMode);
+  static Tensor *zeros(TensorAllocMode allocMode);
+  static Tensor *rand(TensorAllocMode allocMode);
+  void backward(Tensor *) const;
 
   bool requires_grad;
   TensorType type;

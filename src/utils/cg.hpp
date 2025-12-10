@@ -4,8 +4,8 @@
 #include <vector>
 namespace momas::brokly::cg {
 struct Node {
-  std::vector<tensor::TensorPtr> incomings;
-  std::vector<tensor::TensorPtr> outcomings;
+  std::vector<tensor::Tensor *> incomings;
+  std::vector<tensor::Tensor *> outcomings;
 };
 
 class ComputationGraph {};
