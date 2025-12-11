@@ -1,7 +1,6 @@
 #pragma once
 
 #include "tensor/define.h"
-#include <memory>
 #include <stdalign.h>
 #include <stdbool.h>
 #include <vector>
@@ -26,7 +25,7 @@ public:
   void operator=(const Tensor &) = delete;
 
   Tensor(std::vector<unsigned int> size, TensorType type = DENSE,
-         bool requires_grad = true);
+         bool requires_grad = true, TensorAllocMode allocationMode = RESIDENT);
 
   Tensor operator[](unsigned int &&i) const;
   Tensor operator[](unsigned int &&i, unsigned int &&j) const;
@@ -44,6 +43,7 @@ public:
 
   bool requires_grad;
   TensorType type;
+  TensorAllocMode allocationMode;
   unsigned int size;
   std::vector<unsigned int> dims;
   float32 *data;

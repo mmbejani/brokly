@@ -1,4 +1,5 @@
 #include "tensor/tensor.hpp"
+#include <vector>
 
 namespace momas::brokly::tensor {
 Tensor::Tensor(const Tensor &tensor, std::vector<unsigned int> subTensorIdx) {
@@ -8,8 +9,8 @@ Tensor::Tensor(const Tensor &tensor, std::vector<unsigned int> subTensorIdx) {
     this->data = &tensor.data[subTensorIdx[0] * tensor.dims[1] *
                               tensor.dims[2] * tensor.dims[3]];
     this->size = tensor.dims[1] * tensor.dims[2] * tensor.dims[3];
-    this->dims.insert(this->dims.begin(), tensor.dims.begin() + 1,
-                      tensor.dims.end());
+    this->dims = std::vector<unsigned int>(
+        {1, tensor.dims[1], tensor.dims[2], tensor.dims[3]});
     break;
   case 2:
     this->data =
@@ -17,8 +18,8 @@ Tensor::Tensor(const Tensor &tensor, std::vector<unsigned int> subTensorIdx) {
                          tensor.dims[3] +
                      subTensorIdx[1] * tensor.dims[2] * tensor.dims[3]];
     this->size = tensor.dims[2] * tensor.dims[3];
-    this->dims.insert(this->dims.begin(), tensor.dims.begin() + 1,
-                      tensor.dims.end());
+    this->dims =
+        std::vector<unsigned int>({1, 1, tensor.dims[2], tensor.dims[3]});
     break;
   case 3:
     this->data =
@@ -27,7 +28,7 @@ Tensor::Tensor(const Tensor &tensor, std::vector<unsigned int> subTensorIdx) {
                      subTensorIdx[1] * tensor.dims[2] * tensor.dims[3] +
                      subTensorIdx[2] * tensor.dims[3]];
     this->size = tensor.dims[3];
-    this->dims.push_back(tensor.dims[3]);
+    this->dims = std::vector<unsigned int>({1, 1, 1, tensor.dims[3]});
     break;
   case 4:
     this->data =
@@ -36,7 +37,7 @@ Tensor::Tensor(const Tensor &tensor, std::vector<unsigned int> subTensorIdx) {
                      subTensorIdx[1] * tensor.dims[2] * tensor.dims[3] +
                      subTensorIdx[2] * tensor.dims[3] + subTensorIdx[3]];
     this->size = 1;
-    this->dims.push_back(1);
+    this->dims = std::vector<unsigned int>({1, 1, 1, 1});
     break;
   }
 }

@@ -10,10 +10,9 @@ void sigmoid(tensor::Tensor *input, const float32 lambda,
   ::sigmoid(input->data, output->data, input->size);
 }
 
-void silu(tensor::Tensor *input, tensor::Tensor *output) {
-  for (size_t i = 0; i < input->size; i++) {
-    output->data[i] = input->data[i] * (1 / (1 + expf(input->data[i])));
-  }
+__attribute__((always_inline)) void relu(tensor::Tensor *input,
+                                         tensor::Tensor *output) {
+  ::relu(input->data, output->data, input->size);
 }
 
 } // namespace momas::brokly::function
