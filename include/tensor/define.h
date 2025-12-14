@@ -9,5 +9,7 @@
 
 #define AVX_MEM_ALIGNED 32
 #define DIM_PER_THREAD 100000
+
+#define float32 float
     
     
