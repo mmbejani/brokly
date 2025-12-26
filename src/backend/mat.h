@@ -9,3 +9,9 @@ __attribute__((always_inline)) void addmatvec(float *input, float *bias,
                                               float *output,
                                               const unsigned int m,
                                               unsigned int n);
+
+__attribute__((always_inline)) void bmm(float *input, float *weight,
+                                        float *output, const unsigned int m,
+                                        const unsigned int n,
+                                        const unsigned int d);
+;

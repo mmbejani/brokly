@@ -14,7 +14,10 @@ public:
   tensor::Tensor *weight, *bias;
 };
 
-class LinearReLU : public Linear {};
-
 class LinearReLUBatchNorm : public Linear {};
+
+class LinearSequential : public Module {};
+
+class LinearSequentialReLULayerNorm : public LinearSequential {};
+
 } // namespace momas::brokly::nn
