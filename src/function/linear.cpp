@@ -1,5 +1,6 @@
 #include "function/linear.hpp"
 #include "backend/mat.h"
+#include "tensor/tensor.hpp"
 
 namespace momas::brokly::function {
 void linear(tensor::Tensor *input, tensor::Tensor *weight, tensor::Tensor *bias,
@@ -8,7 +9,12 @@ void linear(tensor::Tensor *input, tensor::Tensor *weight, tensor::Tensor *bias,
          weight->dims[2], input->dims[3]);
   addmatvec(output->data, bias->data, output->data, output->dims[2],
             output->dims[3]);
+  input->forwardHooks.push_back(output);
+  weight->forwardHooks.push_back(output);
+  bias->forwardHooks.push_back(output);
 
-  // Add track to CG
+  output->backwardHooks.push_back(input);
+  output->backwardHooks.push_back(weight);
+  output->backwardHooks.push_back(bias);
 }
 } // namespace momas::brokly::function

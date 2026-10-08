@@ -1,7 +1,11 @@
 #pragma once
 
-#include "tensor/tensor.hpp"
 #include <vector>
+
+namespace momas::brokly::tensor {
+class Tensor;
+}
+
 namespace momas::brokly::cg {
 struct Node {
   std::vector<tensor::Tensor *> incomings;

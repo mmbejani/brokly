@@ -1,17 +1,21 @@
 #include "backend/base.h"
 
+void add_vec(float *v, float *u, float *w, const unsigned int n) {
+  for (unsigned int i = 0; i < n; i++) {
+    w[i] = v[i] + u[i];
+  }
+}
+
 void add_vec_inplace(float *v, float *u, const unsigned int n) {
   for (unsigned int i = 0; i < n; i++)
     u[i] += v[i];
 }
 
-__attribute__((always_inline)) void sub_vec_inplace(float *v, float *u,
-                                                    const unsigned int n) {
+void sub_vec_inplace(float *v, float *u, const unsigned int n) {
   for (unsigned int i = 0; i < n; i++)
     u[i] -= v[i];
 }
-__attribute__((always_inline)) void pow_2_vec_inplace(float *v,
-                                                      const unsigned int n) {
+void pow_2_vec_inplace(float *v, const unsigned int n) {
   for (unsigned int i = 0; i < n; i++)
     v[i] *= v[i];
 }
@@ -30,4 +34,10 @@ float inner_prod_reduce_vec(float *v, float *u, const unsigned int n) {
     r += v[i] * u[i];
   }
   return r;
+}
+
+void assign_value(float *v, const float x, const unsigned int n) {
+  for (unsigned int i = 0; i < n; i++) {
+    v[i] = x;
+  }
 }

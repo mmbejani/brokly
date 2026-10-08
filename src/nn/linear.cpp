@@ -4,8 +4,8 @@
 
 namespace momas::brokly::nn {
 
-tensor::Tensor *Linear::forward(const tensor::Tensor *input) const {
-  auto output = tensor::Tensor::zeros(tensor::EPHEMERAL);
+tensor::Tensor *Linear::forward(tensor::Tensor *input) const {
+  tensor::Tensor* output;
   function::linear(input, this->weight, this->bias, output);
   return output;
 }

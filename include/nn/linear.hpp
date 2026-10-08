@@ -1,23 +1,25 @@
 #pragma once
-#include "nn/module.hpp"
 #include "tensor/tensor.hpp"
+#include <vector>
 
 namespace momas::brokly::nn {
 
-class Linear : public Module {
+class Linear {
 public:
   Linear(const unsigned int inFeature, const unsigned int outFeature,
          bool hasBias = true);
 
-  tensor::Tensor *forward(const tensor::Tensor *input) const;
+  tensor::Tensor *forward(tensor::Tensor *input) const;
+
+  std::vector<tensor::Tensor *> parameters() const;
 
   tensor::Tensor *weight, *bias;
 };
 
-class LinearReLUBatchNorm : public Linear {};
+class LinearReLUBatchNorm {};
 
-class LinearSequential : public Module {};
+class LinearSequential {};
 
-class LinearSequentialReLULayerNorm : public LinearSequential {};
+class LinearSequentialReLULayerNorm {};
 
 } // namespace momas::brokly::nn

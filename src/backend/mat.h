@@ -1,5 +1,8 @@
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 __attribute__((always_inline)) void matmul(float *input, float *weight,
                                            float *output, const unsigned int m,
                                            const unsigned int n,
@@ -14,4 +17,6 @@ __attribute__((always_inline)) void bmm(float *input, float *weight,
                                         float *output, const unsigned int m,
                                         const unsigned int n,
                                         const unsigned int d);
-;
+#ifdef __cplusplus
+}
+#endif

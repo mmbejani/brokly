@@ -1,9 +1,8 @@
 #pragma once
 
-#include "nn/module.hpp"
 #include "tensor/tensor.hpp"
 namespace momas::brokly::nn {
-class BatchNorm : public Module {
+class BatchNorm {
 public:
   BatchNorm(unsigned int feature_size);
 
@@ -12,7 +11,7 @@ public:
   tensor::Tensor *mean, *variance;
 };
 
-class LayerNorm : public Module {
+class LayerNorm {
 public:
   LayerNorm();
 
@@ -21,5 +20,5 @@ public:
   tensor::Tensor *mean, *variance;
 };
 
-class RMSNorm : public Module {};
+class RMSNorm {};
 } // namespace momas::brokly::nn

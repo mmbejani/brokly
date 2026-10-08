@@ -3,6 +3,19 @@
 
 #define CHECK_POW2(n) !(n) && (n) == 0
 
+void add_vec(float *v, float *u, float *w, const unsigned int n) {
+  if (!(CHECK_POW2(n))) // TODO: generate great log message and inform consider
+                        // size of tensor 2^k = n
+    exit(-1);
+
+  for (unsigned int i = 0; i + 7 < n; i += 8) {
+    __m256 vec_v = _mm256_loadu_ps(v + i);
+    __m256 vec_u = _mm256_loadu_ps(u + i);
+    __m256 vec_r = _mm256_add_ps(vec_v, vec_u);
+    _mm256_storeu_ps(w + i, vec_r);
+  }
+}
+
 void add_vec_inplace(float *v, float *u, const unsigned int n) {
   // this is important to check that `n` is based
   if (!(CHECK_POW2(n)))
@@ -75,4 +88,11 @@ float inner_prod_reduce_vec(float *v, float *u, unsigned int n) {
   __m128 sum_32 = _mm_hadd_ps(sum_64, sum_64);
   float sum = _mm_cvtss_f32(sum_32);
   return sum;
+}
+
+void assign_value(float *v, const float x, const unsigned int n) {
+  __m256 x_vec = _mm256_set1_ps(x);
+  for (unsigned int i = 0; i + 7 < n; i += 8) {
+    _mm256_storeu_ps(v + i, x_vec);
+  }
 }
