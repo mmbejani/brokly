@@ -3,11 +3,9 @@ if (BUILD_TEST)
 
     include_directories(/opt/gtest/include)
 
-    file(GLOB_RECURSE TEST_SOURCES tests/memory_test.cpp)
-
     enable_testing()
+        
+    add_executable(memory_test tests/memory_test.cpp include/memory/pool.hpp)
 
-    add_executable(test_brokly ${TEST_SOURCES})
-
-    target_link_libraries(test_brokly GTest::gtest_main brokly)
+    target_link_libraries(memory_test GTest::gtest_main brokly)
 endif()

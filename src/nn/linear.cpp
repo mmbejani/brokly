@@ -4,8 +4,8 @@
 
 namespace momas::brokly::nn {
 
-tensor::Tensor *Linear::forward(tensor::Tensor *input) const {
-  tensor::Tensor* output;
+tensor::Tensor *Linear::forward(tensor::Tensor *input) {
+  // Allocate new space for output
   function::linear(input, this->weight, this->bias, output);
   return output;
 }

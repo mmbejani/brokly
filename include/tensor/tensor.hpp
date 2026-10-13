@@ -41,7 +41,6 @@ public:
   Tensor(std::vector<unsigned int> size, TensorType type = TensorType::DENSE,
          bool requires_grad = true,
          TensorAllocMode allocationMode = TensorAllocMode::RESIDENT);
-  ~Tensor(); // Destructor to free allocated data
 
   Tensor operator[](unsigned int &&i) const;
   Tensor operator[](unsigned int &&i, unsigned int &&j) const;
@@ -68,6 +67,7 @@ public:
                        TensorType tensorType = TensorType::ZEROS,
                        TensorAllocMode allocMode = TensorAllocMode::EPHEMERAL);
   static Tensor *rand(std::vector<unsigned int> size,
+                      bool required_grad = false,
                       TensorAllocMode allocMode = TensorAllocMode::EPHEMERAL);
   void backward(Tensor *tensor = nullptr) const;
 
